@@ -1,0 +1,4 @@
+CREATE TABLE data (
+    date TIMESTAMP NOT NULL,
+    name TEXT NOT NULL,
+    url TEXT NOT NULL);
