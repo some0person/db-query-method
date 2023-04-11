@@ -1,6 +1,6 @@
 from sys import argv
 from requests import get
-from threading import Thread, local
+from threading import local
 import concurrent.futures
 
 
@@ -10,14 +10,14 @@ def get_request(destination):
 
 
 if __name__ == "__main__":
-    local_thread = local()
-    URL = argv[1]
+    local_thread, URL = local(), argv[1]
+    
     while True:
         pool = concurrent.futures.ThreadPoolExecutor(max_workers=16)
+        
         print("Starting requests...")
         for i in range(16):
             pool.submit(get_request, URL)
-        
+
         pool.shutdown(wait=True)
-    
     
