@@ -1,5 +1,6 @@
 from aiohttp import web
 from database import *
+from default_database import *
 
 
 routes = web.RouteTableDef()
@@ -21,6 +22,23 @@ async def response(request):  # Обработка запросов к асин�
 fill - заполнить базу данных на 40.000 записей \n \
 s - поиск по строке\n \
 p - часть результатов\n\n"
+    s += f'Число результатов: {len(data)}\n\n'
+    
+    for line in data:
+        s += " | ".join(list(map(str, line)))
+        s += '\n'
+        
+    return web.Response(text=s)
+
+
+@routes.get('/default')
+async def response(request):  # Обработка запросов к асинхронному web-серверу
+    db = default_connect()
+    search = request.rel_url.query.get('s', '')
+    
+    data = default_getEntries(db, arg=search)
+    s = "Использование:\n \
+s - поиск по строке\n\n"
     s += f'Число результатов: {len(data)}\n\n'
     
     for line in data:
